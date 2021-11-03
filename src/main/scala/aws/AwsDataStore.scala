@@ -17,9 +17,13 @@ object AwsDataStore:
     case None => throw new RuntimeException("Cannot obtain a reference to the config data.")
   }
 
-  val s3 = AmazonS3ClientBuilder.standard().withRegion(Regions.DEFAULT_REGION).build()
+  // Transfer manager that handles upload
   val xferMgr = TransferManagerBuilder.standard().build()
 
+  /**
+   * Writes log files to an S3 bucket
+   * Log directory and S3 bucket name are configured in application.conf
+   **/
   def writeToS3(): Unit =
     try {
       val xfer = xferMgr.uploadDirectory(conf.getString(BUCKET_NAME), "",
