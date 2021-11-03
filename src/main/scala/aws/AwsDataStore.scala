@@ -22,8 +22,11 @@ object AwsDataStore:
 
   def writeToS3(): Unit =
     try {
-      xferMgr.uploadDirectory(conf.getString(BUCKET_NAME), "",
+      val xfer = xferMgr.uploadDirectory(conf.getString(BUCKET_NAME), "",
         new File(conf.getString(DIR_PATH)), true)
+      logger.info(xfer.getDescription())
+      xfer.waitForCompletion()
+      xferMgr.shutdownNow()
     } catch {
       case e: AmazonServiceException => logger.error(s"File upload to S3 failed with ${e.getErrorMessage()}")
       case e: FileNotFoundException => logger.error(s"No file/folder found at ${conf.getString(DIR_PATH)}")
