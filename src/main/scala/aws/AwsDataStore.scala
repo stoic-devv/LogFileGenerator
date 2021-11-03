@@ -22,7 +22,7 @@ object AwsDataStore:
 
   def writeToS3(): Unit =
     try {
-      xferMgr.uploadDirectory(conf.getString(BUCKET_NAME), ".",
+      xferMgr.uploadDirectory(conf.getString(BUCKET_NAME), "",
         new File(conf.getString(DIR_PATH)), true)
     } catch {
       case e: AmazonServiceException => logger.error(s"File upload to S3 failed with ${e.getErrorMessage()}")
