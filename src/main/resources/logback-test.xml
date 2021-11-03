@@ -21,7 +21,7 @@
 
     <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>log/sample.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>log/loggenerator.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>5KB</maxFileSize>
             <maxHistory>1</maxHistory>
             <totalSizeCap>1GB</totalSizeCap>

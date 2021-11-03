@@ -10,6 +10,7 @@
 import Generation.{LogMsgSimulator, RandomStringGenerator}
 import HelperUtils.{CreateLogger, Parameters}
 import aws.AwsDataStore
+import hash.HashTable
 
 import collection.JavaConverters.*
 import scala.concurrent.{Await, Future, duration}
@@ -38,6 +39,11 @@ object GenerateLogData:
     case Success(value) => logger.info(s"Log data generation has completed after generating ${Parameters.maxCount} records.")
     case Failure(exception) => logger.info(s"Log data generation has completed within the allocated time, ${Parameters.runDurationInMinutes}")
   }
-  
-  AwsDataStore.writeToS3()
+  cleanup
+
+  def cleanup = {
+    HashTable.createHashTable()
+    AwsDataStore.writeToS3()
+    logger.info(s"Cleanup completed successfully")
+  }
 
