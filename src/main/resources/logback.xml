@@ -6,10 +6,10 @@
     </appender>
 
 
-    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!--<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <!-- Daily rollover -->
-            <fileNamePattern>log/LogFileGenerator.%d{yyyy-MM-dd}.log</fileNamePattern>
+            &lt;!&ndash; Daily rollover &ndash;&gt;
+            <fileNamePattern>log/sample.%d{yyyy-MM-dd}.log</fileNamePattern>
 
             <maxHistory>100</maxHistory>
         </rollingPolicy>
@@ -17,11 +17,23 @@
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level - %msg%n</pattern>
         </encoder>
+    </appender>-->
+
+    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>log/sample.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>5KB</maxFileSize>
+            <maxHistory>1</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level - %msg%n</pattern>
+        </encoder>
     </appender>
 
     <!-- Configure so that it outputs to both console and log file -->
     <root level="debug">
-        <appender-ref ref="FILE" />
+        <appender-ref ref="ROLLING" />
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
