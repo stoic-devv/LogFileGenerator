@@ -1,1 +1,1 @@
-web:java -jar target/sample-app-1.0-jar-with-dependencies.jar
+web:java -jar target/scala-3.0.2/LogFileGenerator-assembly-0.1.jar
