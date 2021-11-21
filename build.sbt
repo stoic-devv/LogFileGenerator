@@ -31,3 +31,9 @@ libraryDependencies ++= Seq(
   "com.typesafe" % "config" % typesafeConfigVersion,
   "com.github.mifmif" % "generex" % generexVersion
 )
+
+//fork := true
+//val buildSettings = Defaults.defaultSettings ++ Seq(
+//  javaOptions += "-Xms128m",
+//  javaOptions += "-Xmx256m"
+//)

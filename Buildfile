@@ -1,1 +1,1 @@
-build: sbt assembly
+build: sbt compile
