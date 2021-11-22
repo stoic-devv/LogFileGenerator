@@ -11,6 +11,7 @@ val typesafeConfigVersion = "1.4.1"
 val apacheCommonIOVersion = "2.11.0"
 val scalacticVersion = "3.2.9"
 val generexVersion = "1.0.2"
+val awsSdkVersion = "2.17.86"
 
 resolvers += Resolver.jcenterRepo
 
@@ -29,11 +30,6 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % scalacticVersion % Test,
   "org.scalatest" %% "scalatest-featurespec" % scalacticVersion % Test,
   "com.typesafe" % "config" % typesafeConfigVersion,
-  "com.github.mifmif" % "generex" % generexVersion
+  "com.github.mifmif" % "generex" % generexVersion,
+  "software.amazon.awssdk" % "aws-sdk-java" % awsSdkVersion
 )
-
-//fork := true
-//val buildSettings = Defaults.defaultSettings ++ Seq(
-//  javaOptions += "-Xms128m",
-//  javaOptions += "-Xmx256m"
-//)

@@ -1,10 +1,15 @@
 package Config
 
-import sys.process._
+import Config.LoggerStartupListener.DEFAULT_INSTANCE_ID
+
+import sys.process.*
 import ch.qos.logback.classic.{Level, Logger, LoggerContext}
 import ch.qos.logback.classic.spi.LoggerContextListener
 import ch.qos.logback.core.spi.ContextAwareBase
 import ch.qos.logback.core.spi.LifeCycle
+import software.amazon.awssdk.regions.internal.util.EC2MetadataUtils
+
+import scala.util.{Failure, Success, Try}
 
 
 object LoggerStartupListener {
@@ -19,27 +24,13 @@ class LoggerStartupListener extends ContextAwareBase with LoggerContextListener 
 
   override def start(): Unit = {
     if (started) return
-    val instanceId = getInstanceId()
+    val instanceId = Try(EC2MetadataUtils.getInstanceId()) match {
+      case Failure(e) => LoggerStartupListener.DEFAULT_INSTANCE_ID
+      case Success(id) => id
+    }
     val context = getContext
     context.putProperty(LoggerStartupListener.INSTANCE_ID_KEY, instanceId)
     started = true
-  }
-
-  def getInstanceId(): String = {
-
-    // ToDo: remove
-    val token0 =Seq("curl", "-X", "PUT", "http://169.254.169.254/latest/api/token", "-H", "X-aws-ec2-metadata-token-ttl-seconds: 21600").!!
-    println(token0)
-    val instanceId0 = Seq("curl", "-H", s"X-aws-ec2-metadata-token: $token0", "-v", "http://169.254.169.254/latest/meta-data/instance-id").!!
-    println(instanceId0)
-
-    try {
-      val token =Seq("curl", "-X", "PUT", "\"http://169.254.169.254/latest/api/token\"", "-H", "\"X-aws-ec2-metadata-token-ttl-seconds: 21600\"").!!
-      val instanceId = Seq("curl", "-H", s"\"X-aws-ec2-metadata-token: $token\"", "-v", "http://169.254.169.254/latest/meta-data/instance-id").!!
-      return instanceId
-    } catch {
-      case e: Exception => LoggerStartupListener.DEFAULT_INSTANCE_ID
-    }
   }
 
   override def stop(): Unit = {
