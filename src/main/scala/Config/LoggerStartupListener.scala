@@ -15,8 +15,6 @@ import scala.util.{Failure, Success, Try}
 object LoggerStartupListener {
   private val INSTANCE_ID_KEY = "EC2_INSTANCE_ID"
   private val DEFAULT_INSTANCE_ID = "i-00000000"
-  private val AWS_METADATA_URL = ""
-  private val INSTANCE_ID_PATH = ""
 }
 
 class LoggerStartupListener extends ContextAwareBase with LoggerContextListener with LifeCycle {
