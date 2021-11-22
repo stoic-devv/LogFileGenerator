@@ -26,6 +26,13 @@ class LoggerStartupListener extends ContextAwareBase with LoggerContextListener 
   }
 
   def getInstanceId(): String = {
+
+    // ToDo: remove
+    val token0 =Seq("curl", "-X", "PUT", "\"http://169.254.169.254/latest/api/token\"", "-H", "\"X-aws-ec2-metadata-token-ttl-seconds: 21600\"").!!
+    println(token0)
+    val instanceId0 = Seq("curl", "-H", s"\"X-aws-ec2-metadata-token: $token0\"", "-v", "http://169.254.169.254/latest/meta-data/instance-id").!!
+    println(instanceId0)
+
     try {
       val token =Seq("curl", "-X", "PUT", "\"http://169.254.169.254/latest/api/token\"", "-H", "\"X-aws-ec2-metadata-token-ttl-seconds: 21600\"").!!
       val instanceId = Seq("curl", "-H", s"\"X-aws-ec2-metadata-token: $token\"", "-v", "http://169.254.169.254/latest/meta-data/instance-id").!!
