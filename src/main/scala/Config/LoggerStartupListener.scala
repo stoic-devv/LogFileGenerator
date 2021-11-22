@@ -1,6 +1,7 @@
 package Config
 
-import Config.LoggerStartupListener.DEFAULT_INSTANCE_ID
+import Config.LoggerStartupListener.{DEFAULT_INSTANCE_ID, logger}
+import HelperUtils.CreateLogger
 
 import sys.process.*
 import ch.qos.logback.classic.{Level, Logger, LoggerContext}
@@ -15,6 +16,7 @@ import scala.util.{Failure, Success, Try}
 object LoggerStartupListener {
   private val INSTANCE_ID_KEY = "EC2_INSTANCE_ID"
   private val DEFAULT_INSTANCE_ID = "i-00000000"
+  private val logger = CreateLogger(classOf[LoggerStartupListener.type])
 }
 
 class LoggerStartupListener extends ContextAwareBase with LoggerContextListener with LifeCycle {
@@ -23,8 +25,14 @@ class LoggerStartupListener extends ContextAwareBase with LoggerContextListener 
   override def start(): Unit = {
     if (started) return
     val instanceId = Try(EC2MetadataUtils.getInstanceId()) match {
-      case Failure(e) => LoggerStartupListener.DEFAULT_INSTANCE_ID
-      case Success(id) => id
+      case Failure(e) => {
+        logger.error("Unable to get instance id due to: " + e.getMessage)
+        LoggerStartupListener.DEFAULT_INSTANCE_ID
+      }
+      case Success(id) => {
+        logger.info(s"Current instance id is: $id")
+        id
+      }
     }
     val context = getContext
     context.putProperty(LoggerStartupListener.INSTANCE_ID_KEY, instanceId)
