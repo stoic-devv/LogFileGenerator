@@ -33,9 +33,7 @@ class LoggerStartupListener extends ContextAwareBase with LoggerContextListener 
     started = true
   }
 
-  override def stop(): Unit = {
-    ???
-  }
+  override def stop(): Unit = {}
 
   override def isStarted: Boolean = started
 
