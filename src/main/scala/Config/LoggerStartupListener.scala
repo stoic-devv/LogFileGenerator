@@ -7,7 +7,7 @@ import ch.qos.logback.classic.{Level, Logger, LoggerContext}
 import ch.qos.logback.classic.spi.LoggerContextListener
 import ch.qos.logback.core.spi.ContextAwareBase
 import ch.qos.logback.core.spi.LifeCycle
-import software.amazon.awssdk.regions.internal.util.EC2MetadataUtils
+import com.amazonaws.util.EC2MetadataUtils
 
 import scala.util.{Failure, Success, Try}
 
