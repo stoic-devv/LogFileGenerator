@@ -21,18 +21,20 @@ Archive with default configuration for the source code has been provided in `src
 2. Tweak the parameters in `src/main/resources/application.conf` to modify the  runtime of the application and frequency of log messages. With the default configuration, this application generates logs for 30 minutes and generates next message with 1 second frequency.
 3. The application runs few scripts over the EC2 instance before the code gets deployed. These scripts are to mount the EFS volume and install scala. These implicitly assume the underlying Linux instance to be Linux-based OS.
 
-### Deploying to AWS Elastic Beanstalk (EBS)
-1. Go to EBS in AWS console [here](https://us-east-2.console.aws.amazon.com/elasticbeanstalk/home).
-2. Create a Web app:
+### Deploying to AWS Elastic Beanstalk (EBS) 
+1. Before we deploy our application, we create a storage where the LogGenerator will be writing the log files. This storage is an EFS (elastic file storage) volume. This volume can be mounted and accessed across multiple EC2 instances.
+2. Go to EFS console [here](https://us-east-2.console.aws.amazon.com/efs/) and create an EFS with default settings.
+3. Go to EBS in AWS console [here](https://us-east-2.console.aws.amazon.com/elasticbeanstalk/home). Make sure that the EBS and EFS are in the same region.
+4. Create a Web app:
    1. Write an application name
    2. Choose Java platform with Corretto 8 platform branch
    3. Select upload your code and upload the `zip` archive of the source code
    4. Click Configure more options
-3. Configure more options:
+5. Configure more options:
    1. Edit instances for any custom security rule needed. You might want to add inbound routes for `ssh` into the efs or viewing logs for debugging. Toggle checkbox to enable IMDSv1.
    2. Edit capacity to specify the number of instances. Edit the instance type to `t2.small`. 
    3. Edit security to add your public/private key-pair.
-4. Deploy the zip using 
+6. Deploy the zip using 
 
 ## Troubleshooting
 1. Default `powershell` command for archiving makes the archive incompatible with Beanstalk. Follow this to test if archiving has been done correctly [here](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-sourcebundle.html#using-features.deployment.source.test)
