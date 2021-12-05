@@ -8,7 +8,15 @@ Changes are made to make this repository deployable as a web application over AW
 ## Build and run configuration
 Clone and `zip` the repository with all contents in the root directory of the `.zip` file  [read more]( https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-sourcebundle.html). Sample command to create a `zip` file:<br/>
 `zip ./LogGenerator.zip -r * .[^.]* -x ".git/*" "project/target/*" "target/*" ".idea"`<br/>
-Archive with default configuration for the source code has been provided in `src/main/resources/LogGenerator.zip`
+
+Archive with default configuration for the source code has been provided in `src/main/resources/LogGenerator.zip`<br/>
+This project can be build and  run locally using:
+```console
+sbt compile #builds the project
+sbt run #run the project
+```
+Requirements: JDK >= 1.8, sbt >= 1.5
+
 
 ### Application configuration
 1. The application requires an EFS volume to be created in the AWS account. It is in the root of this volume the application logs are written. User has to mention the id for this volume `.ebextensions/efs-mount.config`
@@ -35,6 +43,8 @@ Archive with default configuration for the source code has been provided in `src
    2. Edit capacity to specify the number of instances. Edit the instance type to `t2.small`. 
    3. Edit security to add your public/private key-pair.
 6. Deploy the zip using 
+
+### Youtube video [link](https://youtu.be/O3BAjCCJt5k)
 
 ## Troubleshooting
 1. Default `powershell` command for archiving makes the archive incompatible with Beanstalk. Follow this to test if archiving has been done correctly [here](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/applications-sourcebundle.html#using-features.deployment.source.test)
